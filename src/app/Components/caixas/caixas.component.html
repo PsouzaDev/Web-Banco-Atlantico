@@ -1,1 +1,20 @@
-<p>caixas works!</p>
+<div class="div-cards">
+    <div class="card-group">
+        <mat-card  class="caixa" *ngFor="let caixa of caixas">
+            <mat-card-title class="caixa-ativo" *ngIf="caixa.status == true">
+                Caixa ativo
+            </mat-card-title>
+            <mat-card-title class="caixa-inativo" *ngIf="caixa.status == false">
+                Caixa inativo
+            </mat-card-title>
+            <mat-card-content>
+                <div>notas de Dois Reais: {{caixa.dois}}</div>
+                <div>notas de Cinco Reais: {{caixa.cinco}}</div>
+                <div>notas de Dez Reais: {{caixa.dez}}</div>
+                <div>notas de Vinte Reais: {{caixa.vinte}}</div>
+                <div>notas de Cinquenta Reais: {{caixa.cinquenta}}</div>
+            </mat-card-content>
+        </mat-card>
+
+    </div>
+</div>

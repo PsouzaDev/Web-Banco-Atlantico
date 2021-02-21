@@ -1,0 +1,15 @@
+.card-group{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.caixa{
+    padding: 1rem;
+    margin: .25rem;
+}
+.caixa-ativo {
+    color: greenyellow;
+}
+.caixa-inativo {
+    color: red;
+}
