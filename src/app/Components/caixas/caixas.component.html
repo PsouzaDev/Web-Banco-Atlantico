@@ -1,18 +1,61 @@
 <div class="div-cards">
     <div class="card-group">
-        <mat-card  class="caixa" *ngFor="let caixa of caixas">
-            <mat-card-title class="caixa-ativo" *ngIf="caixa.status == true">
-                Caixa ativo
+        <mat-card class="caixa" *ngFor="let caixa of caixas">
+            <mat-card-title class="caixa-ativo" *ngIf="caixa?.status == true">
+                <p>Caixa ativo</p>
+                <p class="saldo">Saldo: {{caixa.saldo | currency:'BRL':'symbol':'1.2-2'}}</p>
             </mat-card-title>
-            <mat-card-title class="caixa-inativo" *ngIf="caixa.status == false">
-                Caixa inativo
+            <mat-card-title class="caixa-inativo" *ngIf="caixa?.status == false">
+                <p>Caixa inativo</p>
+                <p class="saldo">Saldo: {{caixa.saldo | currency:'BRL':'symbol':'1.2-2' }}</p>
             </mat-card-title>
             <mat-card-content>
-                <div>notas de Dois Reais: {{caixa.dois}}</div>
-                <div>notas de Cinco Reais: {{caixa.cinco}}</div>
-                <div>notas de Dez Reais: {{caixa.dez}}</div>
-                <div>notas de Vinte Reais: {{caixa.vinte}}</div>
-                <div>notas de Cinquenta Reais: {{caixa.cinquenta}}</div>
+                <table>
+                    <tr>
+                        <td>
+                            notas de Dois Reais:
+                        </td>
+                        <td>
+                            {{caixa.dois}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            notas de Cinco Reais:
+                        </td>
+                        <td>
+                            {{caixa.cinco}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            notas de Dez Reais:
+                        </td>
+                        <td>
+                            {{caixa.dez}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            notas de Vinte Reais:
+                        </td>
+                        <td>
+                            {{caixa.vinte}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            notas de Cinquenta Reais:
+                        </td>
+                        <td>
+                            {{caixa.cinquenta}}
+                        </td>
+                    </tr>
+                </table>
+                <mat-card-actions>
+                    <mat-slide-toggle [checked]="caixa.status" class="sliders" #slider color="primary" (change)="onChange($event, caixa.id)">
+                    </mat-slide-toggle>
+                </mat-card-actions>
             </mat-card-content>
         </mat-card>
 

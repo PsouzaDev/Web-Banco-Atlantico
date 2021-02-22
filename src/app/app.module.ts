@@ -7,8 +7,11 @@ import { CaixasComponent } from './Components/caixas/caixas.component';
 import { SaqueComponent } from './Components/saque/saque.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule } from '@angular/material/card';
-import {MatToolbarModule} from '@angular/material/toolbar';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { NavbarComponent } from './Components/navbar/navbar.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { HttpClientModule } from '@angular/common/http';
+import {LOCALE_ID} from '@angular/core';
 
 @NgModule({
   declarations: [
@@ -22,9 +25,14 @@ import { NavbarComponent } from './Components/navbar/navbar.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     MatCardModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatSlideToggleModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [{
+    provide: LOCALE_ID,
+    useValue: "en-US"
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

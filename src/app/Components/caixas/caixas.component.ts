@@ -1,5 +1,11 @@
+import { ChangeDetectorRef } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { HubConnectionBuilder } from '@microsoft/signalr';
+import { CaixaId } from 'src/app/model/caixaId';
 import { Caixas } from 'src/app/model/caixas';
+import { CaixasService } from 'src/app/services/caixas.service';
+import { SignalRService } from 'src/app/services/signal-r.service';
 
 @Component({
   selector: 'app-caixas',
@@ -7,48 +13,48 @@ import { Caixas } from 'src/app/model/caixas';
   styleUrls: ['./caixas.component.css']
 })
 export class CaixasComponent implements OnInit {
-  caixas: Caixas[] = [
-    {id:'2v/Y2GtNHhwtnoTVa4lyAcDyT+IyEAbOLyMDXjRVYbA=',
-    saldo:8700,
-    status: false,
-    dois: 100,
-    cinco: 100,
-    dez: 100,
-    vinte: 100,
-    cinquenta: 100
-   },
-   {id:'2v/Y2GtNHhwtnoTVa4lyAcDyT+IyEAbOLyMDXjRVYbA=',
-    saldo:8700,
-    status: true,
-    dois: 100,
-    cinco: 100,
-    dez: 100,
-    vinte: 100,
-    cinquenta: 100
-   },
-   {id:'2v/Y2GtNHhwtnoTVa4lyAcDyT+IyEAbOLyMDXjRVYbA=',
-    saldo:8700,
-    status: true,
-    dois: 100,
-    cinco: 100,
-    dez: 100,
-    vinte: 100,
-    cinquenta: 100
-   },
-   {id:'2v/Y2GtNHhwtnoTVa4lyAcDyT+IyEAbOLyMDXjRVYbA=',
-    saldo:8700,
-    status: true,
-    dois: 100,
-    cinco: 100,
-    dez: 100,
-    vinte: 100,
-    cinquenta: 100
-   }
-  ];
 
-  constructor() { }
+  caixas: Caixas[] = [];
+
+  constructor(public signalRservice: SignalRService,
+    private caixasService: CaixasService,
+    private changeDetectorRefs: ChangeDetectorRef) { }
 
   ngOnInit(): void {
+    this.signalRservice.onSelected.subscribe((itens: any) => {
+      if (itens) {
+
+        // arr1.map(obj => arr2.find(o => o.id === obj.id) || obj);
+        this.caixas = this.caixas.map(caixa => (itens.id === caixa.id) ? itens : caixa);
+        //        this.caixas.forEach(caixa => (caixa.id === itens.id) ? caixa = itens : caixa = caixa);
+        this.changeDetectorRefs.detectChanges();
+
+      }
+    });
+    this.getCaixas();
+    this.signalRservice.startConnection();
+    this.signalRservice.addAtualizacaoCaixaListener();
+  }
+
+  getCaixas() {
+    this.caixasService.getCaixas()
+      .subscribe((res) => {
+        console.log(res);
+        this.caixas = res;
+      });
+  }
+
+  onChange($event: MatSlideToggleChange, id: string) {
+    const caixaId: CaixaId ={idCaixa: id}
+    
+    this.caixasService.updateCaixa(caixaId).subscribe((res) => {
+
+      if (res === true) {
+        this.caixas.forEach(caixa => (caixa.id === id) ? caixa.status = $event.checked : caixa.status = caixa.status);
+        console.log($event.checked, id);
+      }
+
+    });
   }
 
 }
